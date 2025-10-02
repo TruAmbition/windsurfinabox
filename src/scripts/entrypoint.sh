@@ -20,7 +20,8 @@ EXTENSIONS_DIR="${EXTENSIONS_DIR:-${HOME_DIR}/.windsurf/extensions}"
 RESOURCES_PATH="${RESOURCES_PATH:-/usr/local/share/windsurf}"  # baked assets live here
 
 FINALIZATION_MARKER="${FINALIZATION_MARKER:-WORK-COMPLETED}"
-WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-900}" # 15 min fallback timeout
+# WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-900}" # 15 min fallback timeout
+WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-300}" # 5 min fallback timeout
 export DISPLAY="${DISPLAY:-:1}"
 
 # ---------- Ensure dirs & files exist ----------
@@ -278,7 +279,7 @@ captureStep
 # echo -n "$WINDSURF_TOKEN" | xclip -selection clipboard
 # Press Ctrl+Cmd+B
 # xdotool key ctrl+super+b
-pause 15
+pause 25
 # Press Ctrl+L
 xdotool key ctrl+l
 
