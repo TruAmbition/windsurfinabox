@@ -21,7 +21,8 @@ RESOURCES_PATH="${RESOURCES_PATH:-/usr/local/share/windsurf}"  # baked assets li
 
 FINALIZATION_MARKER="${FINALIZATION_MARKER:-WORK-COMPLETED}"
 # WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-900}" # 15 min fallback timeout
-WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-300}" # 5 min fallback timeout
+# WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-300}" # 5 min fallback timeout
+WAIT_TIMEOUT_SECS="${WAIT_TIMEOUT_SECS:-120}" # 2 min fallback timeout
 export DISPLAY="${DISPLAY:-:1}"
 
 # ---------- Ensure dirs & files exist ----------
@@ -273,18 +274,22 @@ pause 2
 # # captureStep
 # pause 5
 # # captureStep
+log "Windsurf opened, 60 second boot-up timeout"
+pause 60
+log "Windsurf boot-up complete"
 
-pause 25
-# Press Ctrl+L
 xdotool key ctrl+l
 pause 2
 # Type the instruction
-# xdotool type --delay 50 "in the nolimit project, change the orange cube to red"
+log "Sending Prompt $TRUPROMPT"
 xdotool type --delay 50 "$TRUPROMPT"
 xdotool key "Return"
+log "Prompt sent..."
 captureStep
 pause 15
 captureStep
 
 waitUntilFinished
+xdotool key ctrl+s
+xdotool key ctrl+k ctrl+u
 captureStep

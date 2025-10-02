@@ -1,42 +1,3 @@
-# docker run -it --name windsurf \
-#   --user "$(id -u):$(id -g)" \
-#   -e TRUPROMPT="$1" \
-#   -e WINDSURF_TOKEN="$WINDSURF_TOKEN" \
-#   -e XDG_CONFIG_HOME=/config \
-#   -e HOME=/workspace \
-#   -e WORKSPACE_DIR=/workspace \
-#   -e PROJECT_NAME=tmy-r3f-cube \
-#   -e LIBGL_ALWAYS_SOFTWARE=1 \
-#   -e MESA_LOADER_DRIVER_OVERRIDE=llvmpipe \
-#   -e ELECTRON_DISABLE_GPU=1 \
-#   -v windsurf_config:/config \
-#   -v ~/windsurf-workspace:/workspace \
-#   -p 6080:6080 \
-#   -p 5901:5901 \
-#   -p 5173:5173 \
-#   -p 3000:3000 \
-#   --shm-size=2g \
-#   windsurf && \
-
-# docker exec -u 0:0 -it windsurf bash -lc '
-#   mkdir -p /root/.vnc
-# ' && 
-# # VNC server (passwordless for speed; swap -nopw with -passwdfile /root/.vnc/passwd if you want a pw)
-# docker exec -d windsurf bash -lc 'x11vnc -display :1 -nopw -forever -shared -rfbport 5901' && 
-
-# # noVNC websocket wrapper (serves a browser client)
-# docker exec -d windsurf bash -lc 'websockify --web=/usr/share/novnc 6080 localhost:5901'
-
-# CONTAINER_NAME="windsurf"
-
-# # Cleanup function
-# cleanup() {
-#   echo "Stopping and removing container $CONTAINER_NAME..."
-#   docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
-# }
-# # Run cleanup on Ctrl+C (SIGINT), termination (SIGTERM), or script exit
-# trap cleanup INT TERM EXIT
-
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -54,7 +15,7 @@ get_prompt() {
     *)  printf "%s" "$1" ;;            # literal
   esac
 }
-PROMPT_TEXT="$(get_prompt "${1:-}")"
+PROMPT_TEXT="$(get_prompt "${1:-}"). When you are done with the changes, save and close all files in the editor window"
 
 # --- cleanup on exit / Ctrl+C ---
 cleanup() {
