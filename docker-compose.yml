@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  windsurf-init:
+    image: windsurf
+    # Run once as root to chown the config volume to your host UID:GID
+    user: "0:0"
+    command: >
+      bash -lc "mkdir -p /config/Windsurf
+                && chown -R ${UID}:${GID} /config"
+    volumes:
+      - windsurf_config:/config
+    restart: "no"
+
+  windsurf:
+    image: windsurf
+    # Run as your host user so the workspace bind mount is writable
+    user: "${UID}:${GID}"
+    environment:
+      WINDSURF_TOKEN: "${WINDSURF_TOKEN}"
+      XDG_CONFIG_HOME: "/config"
+      HOME: "/workspace"
+      WORKSPACE_DIR: "/workspace"
+    volumes:
+      - windsurf_config:/config           # Docker volume (sockets/extensions/config)
+      - ${HOME}/windsurf-workspace:/workspace   # Host workspace
+    depends_on:
+      windsurf-init:
+        condition: service_completed_successfully
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    # Uncomment if you’re on Apple Silicon and need to force amd64:
+    # platform: linux/amd64
+
+volumes:
+  windsurf_config:
