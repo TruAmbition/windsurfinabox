@@ -245,6 +245,7 @@ waitUntilFinished() {
 
 # ---------- Run ----------
 log "User: $(id -u):$(id -g)"
+log "AI Prompt: $TRUPROMPT"
 log "Workspace: $WORKSPACE_DIR"
 log "Output log: $OUTPUT_FILE"
 log "Config root: $WINDSURF_PATH"
@@ -277,12 +278,13 @@ captureStep
 # echo -n "$WINDSURF_TOKEN" | xclip -selection clipboard
 # Press Ctrl+Cmd+B
 # xdotool key ctrl+super+b
-
+pause 15
 # Press Ctrl+L
 xdotool key ctrl+l
 
 # Type the instruction
-xdotool type --delay 50 "in the nolimit project, change the orange cube to red"
+# xdotool type --delay 50 "in the nolimit project, change the orange cube to red"
+xdotool type --delay 50 "$TRUPROMPT"
 xdotool key "Return"
 captureStep
 
