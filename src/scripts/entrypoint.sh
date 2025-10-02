@@ -138,13 +138,36 @@ checkTokenIsPresent() {
   fi
 }
 
-windsurfLogin() {
-  log "Logging in to Windsurf with token"
-  xdotool key ctrl+shift+p; sleep 1
-  xdotool type -- "token"; xdotool key Return; sleep 1
-  xdotool type -- "$WINDSURF_TOKEN"; xdotool key Return; sleep 1
-  xdotool key Escape
+# windsurfLogin() {
+#   log "Logging in to Windsurf with token"
+#   xdotool key ctrl+shift+p; sleep 1
+#   xdotool type -- "token"; xdotool key Return; sleep 1
+#   xdotool type -- "$WINDSURF_TOKEN"; xdotool key Return; sleep 1
+#   xdotool key Escape
+# }
+
+function guiRunEditorCommand() {
+    local command="$1"
+    log "Running editor command: $command"
+    xdotool key "ctrl+shift+p"
+    sleep 2
+    xdotool type "$command"
+    xdotool key "Return"
 }
+
+function windsurfLogin() {
+    log "Logging in to Windsurf with token"
+
+    guiRunEditorCommand "token"
+    sleep 2
+    xdotool type $WINDSURF_TOKEN
+    sleep 2
+    xdotool key "Return"
+    sleep 2
+    #guiTypeLine "" # TODO: Check if this is really needed
+    xdotool key "Escape" # To close potential vault confirmation dialog
+}
+
 
 # Minimal i3 config to avoid first-run wizard
 I3_CONF_DIR="${CONFIG_ROOT}/i3"
@@ -229,30 +252,28 @@ checkTokenIsPresent
 startWindowManager
 pause 1
 startWindsurf
+pause 2
+windsurfLogin
+captureStep
 pause 3
 captureStep
 focusWindsurf
 
 # # <<< The only behavioral change: reliably advance onboarding >>>
 # finishOnboarding
-# captureStep
-# pause 3
-# captureStep
-# pause 3
-# captureStep
-# pause 3
-# captureStep
-# pause 3
-# captureStep
-# pause 3
-# captureStep
-
-windsurfLogin
+xdotool key "Return"
 captureStep
-
+pause 5
+xdotool key "Return"
+captureStep
+pause 5
+xdotool key "Return"
+captureStep
+pause 5
+captureStep
 # # (kept identical flow after login)
 # runWorkflowWithPrompt
 # captureStep
-
+echo -n "$WINDSURF_TOKEN" | xclip -selection clipboard
 waitUntilFinished
 captureStep
