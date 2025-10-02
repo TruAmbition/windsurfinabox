@@ -161,10 +161,10 @@ function windsurfLogin() {
 
     guiRunEditorCommand "token"
     sleep 2
-    xdotool type $WINDSURF_TOKEN
+    # xdotool type $WINDSURF_TOKEN #Need to fix this, setup initially manually.
     sleep 2
     xdotool key "Return"
-    sleep 2
+    sleep 2åå
     #guiTypeLine "" # TODO: Check if this is really needed
     xdotool key "Escape" # To close potential vault confirmation dialog
 }
@@ -255,30 +255,25 @@ startWindowManager
 pause 1
 startWindsurf
 pause 2
-windsurfLogin
-captureStep
-pause 3
-captureStep
-focusWindsurf
+# windsurfLogin #Disabling automatic login flow
+# # captureStep
+# pause 3
+# # captureStep
+# focusWindsurf
 
-# # <<< The only behavioral change: reliably advance onboarding >>>
-# finishOnboarding
-xdotool key "Return"
-captureStep
-pause 5
-xdotool key "Return"
-captureStep
-pause 5
-xdotool key "Return"
-captureStep
-pause 5
-captureStep
-# # (kept identical flow after login)
-# runWorkflowWithPrompt
-# captureStep
-# echo -n "$WINDSURF_TOKEN" | xclip -selection clipboard
-# Press Ctrl+Cmd+B
-# xdotool key ctrl+super+b
+# # # <<< The only behavioral change: reliably advance onboarding >>>
+# # finishOnboarding
+# xdotool key "Return"
+# # captureStep
+# pause 5
+# xdotool key "Return"
+# # captureStep
+# pause 5
+# xdotool key "Return"
+# # captureStep
+# pause 5
+# # captureStep
+
 pause 25
 # Press Ctrl+L
 xdotool key ctrl+l
@@ -287,6 +282,8 @@ xdotool key ctrl+l
 # xdotool type --delay 50 "in the nolimit project, change the orange cube to red"
 xdotool type --delay 50 "$TRUPROMPT"
 xdotool key "Return"
+captureStep
+pause 10
 captureStep
 
 waitUntilFinished
