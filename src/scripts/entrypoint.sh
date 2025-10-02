@@ -274,6 +274,17 @@ captureStep
 # # (kept identical flow after login)
 # runWorkflowWithPrompt
 # captureStep
-echo -n "$WINDSURF_TOKEN" | xclip -selection clipboard
+# echo -n "$WINDSURF_TOKEN" | xclip -selection clipboard
+# Press Ctrl+Cmd+B
+# xdotool key ctrl+super+b
+
+# Press Ctrl+L
+xdotool key ctrl+l
+
+# Type the instruction
+xdotool type --delay 50 "in the nolimit project, change the orange cube to red"
+xdotool key "Return"
+captureStep
+
 waitUntilFinished
 captureStep
