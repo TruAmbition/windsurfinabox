@@ -277,13 +277,13 @@ pause 2
 pause 25
 # Press Ctrl+L
 xdotool key ctrl+l
-
+pause 2
 # Type the instruction
 # xdotool type --delay 50 "in the nolimit project, change the orange cube to red"
 xdotool type --delay 50 "$TRUPROMPT"
 xdotool key "Return"
 captureStep
-pause 10
+pause 15
 captureStep
 
 waitUntilFinished
